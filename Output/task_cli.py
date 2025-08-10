@@ -1,11 +1,15 @@
 import sys
 import json
 from datetime import datetime
+from tabulate import tabulate
 
 def helper_function():
    print(
     """
     ## VALID COMMANDS ##
+
+    **Help**
+    task-cli help
     
     **Adding Task**
     task-cli add "Buy groceries"
@@ -31,7 +35,7 @@ def helper_function():
 
 
 #handle when file doesn't exist
-file_needed = "data.json"
+file_needed = r"C:\AdvayRepos\Task_Tracker_RM\Output\data.json"
 def load_data():
     data = []
     try:
@@ -109,26 +113,19 @@ def list_tasks(data):
         if sys.argv[2] in sys.argv:
             match sys.argv[2]:
                 case "done":
-                    print("this is done")
+                    filtered_data = [entry for entry in data if entry['status'] == 'done']
+                    print_table(filtered_data)
                 case "todo":
-                    print("this is todo")
+                    filtered_data = [entry for entry in data if entry['status'] == 'todo']
+                    print_table(filtered_data)
                 case "in-progress":
-                    print("this is in-progress")
+                    filtered_data = [entry for entry in data if entry['status'] == 'in-progress']
+                    print_table(filtered_data)
                 case _:
                     print("Error: Not a valid list argument: ", sys.argv[2])
     except:
-        print("\n")
-        for entry in data:
-            created = datetime.strptime(entry['createdAt'], "%Y-%m-%dT%H:%M:%S")
-            updated = datetime.strptime(entry['updatedAt'], "%Y-%m-%dT%H:%M:%S")
+        print_table(data)
             
-            created_str = created.strftime("%b %d, %Y %I:%M %p")
-            updated_str = updated.strftime("%b %d, %Y %I:%M %p")
-            
-            print(
-                f"ID[{entry['id']}]: {entry['description']} is {entry['status']}. "
-                f"Created at {created_str}. Updated at {updated_str}.\n"
-            )
 
 def mark_task_in_progress(data):
     try:
@@ -213,6 +210,28 @@ def tasks():
             helper_function()
         case _:
             print("Not a valid secondary command: ", sys.argv[1])
+
+def print_table(data):
+    table_data = []
+    for entry in data:
+        created = datetime.strptime(entry['createdAt'], "%Y-%m-%dT%H:%M:%S")
+        updated = datetime.strptime(entry['updatedAt'], "%Y-%m-%dT%H:%M:%S")
+        
+        created_str = created.strftime("%b %d, %Y %I:%M %p")
+        updated_str = updated.strftime("%b %d, %Y %I:%M %p")
+        
+        table_data.append([
+            entry['id'],
+            entry['description'],
+            entry['status'],
+            created_str,
+            updated_str
+        ])
+
+    headers = ["ID", "Description", "Status", "Created At", "Updated At"]
+    table = tabulate(table_data, headers=headers, tablefmt="fancy_grid")
+    print(table)
+
 
 if __name__ == "__main__":
     tasks()

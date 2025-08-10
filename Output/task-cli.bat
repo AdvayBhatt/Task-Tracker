@@ -1,2 +1,3 @@
 @echo off
-py task_cli.py %*
+py "C:\AdvayRepos\Task_Tracker_RM\Output\task_cli.py" %*
+
