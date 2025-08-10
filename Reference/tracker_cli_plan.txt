@@ -1,0 +1,7 @@
+I will need to know:
+
+argparse or sys.argv                    For reading command-line inputs
+File handling (open, read, write) 	To work with JSON files
+JSON (json module)	                Reading and writing task data
+Date/time (datetime)	                Timestamps for tasks
+Functions & maybe classes        	To keep code clean and organized
