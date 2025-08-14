@@ -1,5 +1,5 @@
 # Task Tracker
-This is a personal project to track tasks through a CLI
+This is a personal project to track tasks through a CLI sourced from [roadmap.sh](https://roadmap.sh/projects/task-tracker)
 
 If you open up CMD, the following commands will work
 
